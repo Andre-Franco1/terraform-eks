@@ -5,7 +5,7 @@ resource "aws_iam_policy" "eks_controller_policy" {
   tags = merge(
     var.tags,
     {
-      Name = "${var.project_name}-controller- policy"
+      Name = "${var.project_name}-controller-policy"
     }
   )
 }
