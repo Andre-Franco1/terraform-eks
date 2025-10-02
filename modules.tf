@@ -22,10 +22,20 @@ module "eks_managed_node_group" {
   private_subnet_1b = module.eks_network.subnet_priv_1b
 }
 
-module "eks-aws-load-balancer-controller" {
-  source       = "./modules/aws-load-balancer-controller"
+module "eks_add_ons" {
+  source       = "./modules/add-ons"
   project_name = var.project_name
   tags         = var.tags
   oidc         = module.eks_cluster.oidc
   cluster_name = module.eks_cluster.cluster_name
+}
+
+module "eks_ec2" {
+  source            = "./modules/ec2"
+  project_name      = var.project_name
+  tags              = var.tags
+  vpc               = module.eks_network.vpc
+  public_subnet_1a  = module.eks_network.subnet_pub_1a
+  private_subnet_1a = module.eks_network.subnet_priv_1a
+  cluster_sg        = module.eks_cluster.cluster_sg
 }
