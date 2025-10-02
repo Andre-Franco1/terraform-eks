@@ -1,6 +1,6 @@
 resource "aws_security_group" "bastion_sg" {
   description = "Allow SSH from outside"
-  vpc_id      = var.vpc
+  vpc_id      = var.vpc_id
 
   ingress {
     description = "SSH from outside"

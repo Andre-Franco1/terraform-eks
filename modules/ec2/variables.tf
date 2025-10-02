@@ -8,7 +8,7 @@ variable "tags" {
   description = "Tags to be added to AWS resources"
 }
 
-variable "vpc" {
+variable "vpc_id" {
   type        = string
   description = "VPC for SG"
 }

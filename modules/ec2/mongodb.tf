@@ -1,6 +1,6 @@
 resource "aws_security_group" "mongodb_sg" {
   description = "Allow MongoDB from EKS nodes"
-  vpc_id      = var.vpc
+  vpc_id      = var.vpc_id
 
   ingress {
     description = "SSH from bastion"
