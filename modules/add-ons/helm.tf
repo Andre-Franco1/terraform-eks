@@ -25,6 +25,29 @@ resource "helm_release" "eks_helm_controller" {
   ]
 }
 
+resource "helm_release" "external_dns" {
+  name       = "external-dns"
+  repository = "https://kubernetes-sigs.github.io/external-dns/"
+  chart      = "external-dns"
+  version    = "1.19.0"
+  namespace  = "kube-system"
+
+  set = [
+    {
+      name  = "serviceAccount.create"
+      value = "false"
+    },
+    {
+      name  = "serviceAccount.name"
+      value = "external-dns"
+    },
+    {
+      name  = "policy"
+      value = "sync"
+    }
+  ]
+}
+
 resource "helm_release" "sealed-secrets" {
   name       = "sealed-secrets-controller"
   repository = "https://bitnami-labs.github.io/sealed-secrets"
