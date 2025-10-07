@@ -53,7 +53,29 @@ EOF
   )
 }
 
-resource "aws_iam_role_policy_attachment" "gh_actions_ecr_role_attachment" {
+resource "aws_iam_role_policy_attachment" "gh_actions_oidc_ecr_full" {
   role       = aws_iam_role.gh_actions_oidc_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
+}
+
+resource "aws_iam_policy" "gh_actions_eks_ro" {
+  name = "${var.project_name}-eks-ro"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "eks:DescribeCluster",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "gh_actions_oidc_eks_ro" {
+  role       = aws_iam_role.gh_actions_oidc_role.name
+  policy_arn = aws_iam_policy.gh_actions_eks_ro.arn
 }
