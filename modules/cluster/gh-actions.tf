@@ -52,3 +52,8 @@ EOF
     }
   )
 }
+
+resource "aws_iam_role_policy_attachment" "gh_actions_ecr_role_attachment" {
+  role       = aws_iam_role.gh_actions_oidc_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
+}
