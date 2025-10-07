@@ -32,6 +32,14 @@ resource "aws_iam_role" "gh_actions_oidc_role" {
                     "Federated": "${aws_iam_openid_connect_provider.gh_actions_oidc.arn}"
                 },
                 "Action": "sts:AssumeRoleWithWebIdentity"
+                "Condition": {
+                "StringLike": {
+                    "token.actions.githubusercontent.com:sub": "repo:Andre-Franco1/restapi-flask:*"
+                },
+                "StringEquals": {
+                    "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+                }
+            }
             }
         ]
 }
