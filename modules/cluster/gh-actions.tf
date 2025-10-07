@@ -18,3 +18,29 @@ resource "aws_iam_openid_connect_provider" "gh_actions_oidc" {
     }
   )
 }
+
+resource "aws_iam_role" "gh_actions_oidc_role" {
+  name = "${var.project_name}-gh-actions-oidc-role"
+
+  assume_role_policy = <<EOF
+{
+    "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {
+                    "Federated": "${aws_iam_openid_connect_provider.gh_actions_oidc.arn}"
+                },
+                "Action": "sts:AssumeRoleWithWebIdentity"
+            }
+        ]
+}
+EOF
+
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project_name}-gh-actions-oidc-role"
+    }
+  )
+}
